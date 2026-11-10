@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+!.env.example
+data/
+*service-account*.json
+credentials*.json
+gen-lang-client-*.json
