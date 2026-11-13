@@ -21,6 +21,14 @@ npm start
 
 `OUTPUT=corrected` 使用校正原文；`OUTPUT=text` 使用原始辨識；其他值直接作為 `result.translated` 的語言 key，例如 `en`、`ja`。每段追加一個換行，不加入時間戳、不轉換顯示字典。選定文字缺失或空白時會停止程序而非偷偷略過，游標不會越過該筆；請檢查 session 的輸出設定。
 
+## 網頁表單
+
+`npm run web` 在 `http://127.0.0.1:8787/`（`WEB_PORT` 可改）提供表單：欄位即上述環境變數，預設值從 `.env` 帶入；按「開始」驗證設定與 Google 文件存取後執行，啟動錯誤直接顯示在表單；執行紀錄即時顯示；「停止」等同 Ctrl+C。
+
+- 只聽 `127.0.0.1`，並拒絕其他 Host 及非 JSON 的 POST；不要用 port forwarding 或反向代理對外公開，頁面沒有登入保護。
+- 一次只執行一個任務；關閉瀏覽器不會停止 bridge，要按「停止」或結束程序。
+- State 路徑留空時依來源、session、文件、分頁及輸出自動產生 `data/state-<hash>.sqlite`；同設定再次啟動會續寫。它不會沿用 `npm start` 的 `data/bridge.sqlite`，要接續舊 state 請在表單明確填入該路徑。
+
 ## 運作與恢復
 
 - 訂閱 `/api/session/{sid}/stream`，不要求 snapshot、不匯入啟動前歷史。viewer SSE 不需要 API key 或 panel secret。
